@@ -1,0 +1,32 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    text-align: center;
+}
+
+.train-title{
+    border-bottom: 2px solid black;
+}
+.left{
+    float: left;
+}
+#train-name{
+    width: 100%;
+}
+.form-group{
+    text-align: left;
+}
+.add-train-section{
+    margin-top: 20px;
+}
+#border{
+    border-bottom: 1px solid gray;
+    margin-top: 10px;
+}
+#test{
+    text-align: left;
+}
+.train-title{
+    margin-left: 30px;
+}
