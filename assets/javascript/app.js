@@ -1,6 +1,4 @@
-$(document).ready(function() {
-
-
+$(document).ready(function () {
     // Initialize Firebase
     var config = {
         apiKey: "AIzaSyB5mmRqcyY1poUwMvXWPAoGHZZlzXweF_I",
@@ -24,88 +22,80 @@ $(document).ready(function() {
     var minutesAway = "";
 
 
-    $(document).on('click', '#trainSubmit', function(e) {
+    $(document).on('click', '#trainSubmit', function (e) {
 
         trainName = $('#trainNameText').val().trim();
         trainDestination = $('#trainDestinationText').val().trim();
         trainFirstTime = $('#trainFirstTimeText').val().trim();
         trainFrequency = $('#trainFrequecyText').val().trim();
 
-        //convert bullshit
+        var firstTimeConverted = moment(trainFirstTime, "HH:mm").subtract(1, "years");
+        console.log(firstTimeConverted);
+
+        // Current Time
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+
+        // Time apart (remainder)
+        var tRemainder = diffTime % trainFrequency;
+        console.log(tRemainder);
+
+        // Minute Until Train
+        var tMinutesTillTrain = trainFrequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+        // Next Train
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        var nextArival = moment(nextTrain).format("hh:mm a")
+        console.log('test:' + nextArival)
+
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
 
         //will push the new train to the db
         listOfTrains.push({
             dbTrainName: trainName,
             dbTrainDestination: trainDestination,
-            dbTrainFirstTime: trainFirstTime,
+            dbMinAway: tRemainder,
             dbTrainFrequency: trainFrequency,
-            dbMinutesAway: minutesAway,
+            dbNextArival: nextArival,
         });
 
     })
 
 
-    listOfTrains.on('child_added', function(snap) {
+    listOfTrains.on('child_added', function (snap) {
         var newRow = $('<tr>');
-
-        var newH = $('<th>')
-        newH.attr('scope', 'row');
-
-
         var trainNamCol = $('<td>');
+        trainNamCol.attr('scope', 'row');
         trainNamCol.text(snap.val().dbTrainName);
-        newH.append(trainNamCol);
-        newRow.append(newH);
+
+
+        var trainDestCol = $('<td>');
+        trainDestCol.text(snap.val().dbTrainDestination);
+
+        var trainFreqCol = $('<td>');
+        trainFreqCol.text(snap.val().dbTrainFrequency);
+
+
+        var trainArrivalTime = $('<td>');
+        trainArrivalTime.text(snap.val().dbNextArival);
+
+
+        var trainMinutesAway = $('<td>');
+        trainMinutesAway.text(snap.val().dbMinAway);
+
+        newRow.append(trainNamCol);
+        newRow.append(trainDestCol);
+        newRow.append(trainFreqCol);
+        newRow.append(trainArrivalTime);
+        newRow.append(trainMinutesAway);
 
         $('#trains-list').append(newRow);
-
-        // //train name
-        // var trainNameCol = $('<div>');
-        // trainNameCol.addClass('col-md-2');
-        // var newPName = $('<p>');
-        // newPName.text(snap.val().dbTrainName);
-        // trainNameCol.append(newPName);
-        // newRow.append(trainNameCol);
-
-        // //train destination
-        // var trainDestCol = $('<div>');
-        // trainDestCol.addClass('col-md-2');
-        // var newPDest = $('<p>');
-        // newPDest.text(snap.val().dbTrainDestination);
-        // trainDestCol.append(newPDest);
-        // newRow.append(trainDestCol);
-
-        $('.added-trains').append(newRow);
-
-        // //train frequency
-        // var trainFreqCol = $('<div>');
-        // trainFreqCol.addClass('col-md-2');
-        // var newPFreq = $('<p>');
-        // newPFreq.text(snap.val().dbTrainFrequency);
-        // trainFreqCol.append(newPFreq);
-
-        // //train next arrival time
-        // var trainArrivalTime = $('div');
-        // trainArrivalTime.addClass('col-md-2');
-        // var newPTime = $('<p>');
-        // newPTime.text(snap.val().dbTrainFirstTime);
-        // trainArrivalTime.append(newPTime);
-
-        // //train minutes away
-        // var trainMinutesAway = $('<div>');
-        // trainMinutesAway.addClass('col-md-2');
-        // var newPAway = $('<p>');
-        // newPAway.text(snap.val().dbMinutesAway);
-        // trainMinutesAway.append(newPAway);
-
-        // //append everything to row
-
-        // newRow.append(trainDestCol);
-        // newRow.append(trainFreqCol);
-        // newRow.append(trainArrivalTime);
-        // newRow.append(trainMinutesAway);
-
-
     })
 
 
