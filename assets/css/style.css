@@ -30,3 +30,29 @@ body{
 .train-title{
     margin-left: 30px;
 }
+#over{
+    overflow: scroll;
+    height: 400px;
+}
+
+.add-train-section:hover, .card:hover{
+    box-shadow:  
+    0 6px 20px 0 rgba(0, 0, 0, 0.19),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.jumbotron{
+    background: url('../images/jumbotron-background.jpg');
+    background-position: center;
+    width: 100%;
+    border-radius: 0;
+}
+#welcome{
+    z-index: 99;
+    color:#fff;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+body{
+    background: #fff;
+}
