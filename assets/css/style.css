@@ -5,9 +5,6 @@ body{
     text-align: center;
 }
 
-.train-title{
-    border-bottom: 2px solid black;
-}
 .left{
     float: left;
 }
@@ -55,4 +52,10 @@ body{
 }
 body{
     background: #fff;
+}
+.card-header{
+    background: #b37a4e;
+}
+.card-body{
+    background: #f0eeec;
 }
